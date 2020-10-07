@@ -37,5 +37,43 @@ namespace AngASPNETCOREBackend.Models.Repositories
                 return _users.Count;
             }
         }
+
+        public Users GetUserById(int id)
+        {
+            return _appDbContext.Users.FirstOrDefault(u => u.Id == id);
+        }
+
+        public bool SaveChanges()
+        {
+           return (_appDbContext.SaveChanges() >= 0);
+        }
+
+        public void CreateUser(Users user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }    
+            else
+            {
+                _appDbContext.Add(user);
+                SaveChanges();
+                LoadEntries();
+            }
+        }
+
+        public void UpdateUser(Users user)
+        {
+            _appDbContext.Update(user);
+            SaveChanges();
+        }
+
+        public void DeleteUser(Users user)
+        {
+
+            _appDbContext.Remove(user);
+            SaveChanges();
+            LoadEntries();
+        }
     }
 }

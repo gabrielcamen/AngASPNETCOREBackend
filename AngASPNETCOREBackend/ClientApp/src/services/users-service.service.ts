@@ -16,7 +16,7 @@ const httpOptions = {
 })
 export class UsersServiceService {
 
-  usersUrl: string = 'https://localhost:44306/users';
+  usersUrl: string = 'https://localhost:44306/api/users';
 
   constructor(private http: HttpClient) {
   }
