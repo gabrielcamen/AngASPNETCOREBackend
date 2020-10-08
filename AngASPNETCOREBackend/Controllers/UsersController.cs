@@ -28,23 +28,36 @@ namespace AngASPNETCOREBackend.Controllers
         [Route("number")]
         public ActionResult<int> GetNumberOfUsers()
         {
-            return _userRepository.GetNumberOfUsers;
+            return _userRepository.GetNumberOfUsers();
         }
 
         //GET /api/users
         [HttpGet]
-        public ActionResult<IEnumerable<UsersReadDto>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UsersReadDto>>> GetAllUsers()
         {
-            var users = _userRepository.GetAllUsers.ToList();
-            return Ok(_mapper.Map<IEnumerable<UsersReadDto>>(users));
+          
+
+
+            var users = await _userRepository.GetAllUsers();
+            if (users != null)
+            {
+                return  Ok(_mapper.Map<IEnumerable<UsersReadDto>>(users));
+
+            }
+            else
+            {
+                return NotFound();
+            }
+
+         
         }
 
 
         //GET /api/users/id
         [HttpGet("{id}", Name = "GetUserById")]
-        public ActionResult<UsersReadDto> GetUserById(int id)
+        public async Task<ActionResult<UsersReadDto>> GetUserById(int id)
         {
-            var user = _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserById(id);
 
             if(user == null)
             {
@@ -58,10 +71,10 @@ namespace AngASPNETCOREBackend.Controllers
 
         //POST /api/users
         [HttpPost]
-        public ActionResult<UsersReadDto> CreateUser(UsersCreateDto userToCreate)
+        public async Task<ActionResult<UsersReadDto>> CreateUser(UsersCreateDto userToCreate)
         {
             var usersModel = _mapper.Map<Users>(userToCreate);
-            _userRepository.CreateUser(usersModel);
+            await _userRepository.CreateUser(usersModel);
 
             var usersReadDto = _mapper.Map<UsersReadDto>(usersModel);
 
@@ -70,32 +83,32 @@ namespace AngASPNETCOREBackend.Controllers
 
         //PUT /api/users/{id}
         [HttpPut("{id}")]
-        public ActionResult UpdateCommand(int id, UsersUpdateDto usersUpdateDto)
+        public async Task<ActionResult> UpdateCommand(int id, UsersUpdateDto usersUpdateDto)
         {
-            var userToBeUpdated = _userRepository.GetUserById(id);
+            var userToBeUpdated = await _userRepository.GetUserById(id);
             if(userToBeUpdated == null)
             {
                 return NotFound();
             }
 
             _mapper.Map(usersUpdateDto, userToBeUpdated);
-            _userRepository.UpdateUser(userToBeUpdated);
+            await _userRepository.UpdateUser(userToBeUpdated);
 
             return NoContent();
         }
 
         //DELETE /api/users/{id}
         [HttpDelete("{id}")]
-        public ActionResult DeleteCommand(int id)
+        public async Task<ActionResult> DeleteCommand(int id)
         {
-            var userToBeDeleted = _userRepository.GetUserById(id);
+            var userToBeDeleted = await _userRepository.GetUserById(id);
 
             if (userToBeDeleted == null)
             {
                 return NotFound();
             }
 
-            _userRepository.DeleteUser(userToBeDeleted);
+            await _userRepository.DeleteUser(userToBeDeleted);
 
             return NoContent();
         }

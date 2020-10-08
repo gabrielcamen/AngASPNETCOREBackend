@@ -22,57 +22,50 @@ namespace AngASPNETCOREBackend.Models.Repositories
         {
             _users = _appDbContext.Users.ToList();
         }
-        public IEnumerable<Users> GetAllUsers
-        {
-            get
-            {
-                return _users;
-            }
+        public async Task<IEnumerable<Users>> GetAllUsers()
+        { 
+            return await _appDbContext.Users.ToListAsync();
         }
 
-        public int GetNumberOfUsers
+        public int GetNumberOfUsers()
         {
-            get
-            {
-                return _users.Count;
-            }
+                return _users.Count;   
         }
 
-        public Users GetUserById(int id)
+        public async Task<Users> GetUserById(int id)
         {
-            return _appDbContext.Users.FirstOrDefault(u => u.Id == id);
+            return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public bool SaveChanges()
+        public async Task SaveChanges()
         {
-           return (_appDbContext.SaveChanges() >= 0);
+           await _appDbContext.SaveChangesAsync();
         }
 
-        public void CreateUser(Users user)
+        public async Task CreateUser(Users user)
         {
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user));
+                throw new  ArgumentNullException(nameof(user));
             }    
             else
             {
                 _appDbContext.Add(user);
-                SaveChanges();
+                await SaveChanges();
                 LoadEntries();
             }
         }
 
-        public void UpdateUser(Users user)
+        public async Task UpdateUser(Users user)
         {
             _appDbContext.Update(user);
-            SaveChanges();
+            await SaveChanges();
         }
 
-        public void DeleteUser(Users user)
+        public async Task DeleteUser(Users user)
         {
-
             _appDbContext.Remove(user);
-            SaveChanges();
+            await SaveChanges();
             LoadEntries();
         }
     }

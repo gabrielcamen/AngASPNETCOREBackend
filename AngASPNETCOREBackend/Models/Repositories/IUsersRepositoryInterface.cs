@@ -7,13 +7,13 @@ namespace AngASPNETCOREBackend.Models.Repositories
 {
     public interface IUsersRepositoryInterface
     {
-        bool SaveChanges();
-        IEnumerable<Users> GetAllUsers { get; }
-        int GetNumberOfUsers { get; }
-        Users GetUserById(int id);
-        void CreateUser(Users user);
-        void UpdateUser(Users user);
-        void DeleteUser(Users user);
+        Task SaveChanges();
+        Task<IEnumerable<Users>> GetAllUsers();
+        int GetNumberOfUsers();
+        Task<Users> GetUserById(int id);
+        Task CreateUser(Users user);
+        Task UpdateUser(Users user);
+        Task DeleteUser(Users user);
 
     }
 }
