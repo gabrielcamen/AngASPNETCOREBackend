@@ -14,7 +14,7 @@ namespace AngASPNETCOREBackend.Models.Repositories
         public UsersRepository(AppDbContext AppDbContext)
         {
             _appDbContext = AppDbContext;
-            Console.WriteLine("hey");
+          
         }
 
       
