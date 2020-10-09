@@ -11,25 +11,24 @@ namespace AngASPNETCOREBackend.Models.Repositories
     {
 
         private AppDbContext _appDbContext;
-        private List<Users> _users = new List<Users>();
         public UsersRepository(AppDbContext AppDbContext)
         {
             _appDbContext = AppDbContext;
-            LoadEntries();
+
         }
 
-        void LoadEntries()
-        {
-            _users = _appDbContext.Users.ToList();
-        }
+      
         public async Task<IEnumerable<Users>> GetAllUsers()
         { 
             return await _appDbContext.Users.ToListAsync();
         }
 
-        public int GetNumberOfUsers()
+        public async Task<int> GetNumberOfUsers()
         {
-                return _users.Count;   
+            return await Task.Run(()=>
+                 GetAllUsers().Result.Count() 
+                );
+               
         }
 
         public async Task<Users> GetUserById(int id)
@@ -52,7 +51,6 @@ namespace AngASPNETCOREBackend.Models.Repositories
             {
                 _appDbContext.Add(user);
                 await SaveChanges();
-                LoadEntries();
             }
         }
 
@@ -66,7 +64,7 @@ namespace AngASPNETCOREBackend.Models.Repositories
         {
             _appDbContext.Remove(user);
             await SaveChanges();
-            LoadEntries();
+          
         }
     }
 }

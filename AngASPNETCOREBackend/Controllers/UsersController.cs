@@ -26,9 +26,9 @@ namespace AngASPNETCOREBackend.Controllers
         //GET /api/users/number
         [HttpGet]
         [Route("number")]
-        public ActionResult<int> GetNumberOfUsers()
+        public async Task<ActionResult<int>> GetNumberOfUsers()
         {
-            return _userRepository.GetNumberOfUsers();
+            return await _userRepository.GetNumberOfUsers();
         }
 
         //GET /api/users
@@ -57,7 +57,7 @@ namespace AngASPNETCOREBackend.Controllers
         [HttpGet("{id}", Name = "GetUserById")]
         public async Task<ActionResult<UsersReadDto>> GetUserById(int id)
         {
-            var user = await _userRepository.GetUserById(id);
+            var user =  await _userRepository.GetUserById(id);
 
             if(user == null)
             {

@@ -9,7 +9,7 @@ namespace AngASPNETCOREBackend.Models.Repositories
     {
         Task SaveChanges();
         Task<IEnumerable<Users>> GetAllUsers();
-        int GetNumberOfUsers();
+        Task<int> GetNumberOfUsers();
         Task<Users> GetUserById(int id);
         Task CreateUser(Users user);
         Task UpdateUser(Users user);
