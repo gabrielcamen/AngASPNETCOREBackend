@@ -28,6 +28,7 @@ namespace AngASPNETCOREBackend
             services.AddControllersWithViews();
 
             services.AddScoped<IUsersRepositoryInterface, UsersRepository>();
+            services.AddScoped<IConversationsRepository, ConversationsRepositorySQL>();
             services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
